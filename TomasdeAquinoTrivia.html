@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trivia sobre Santo Tomas de Aquino </title>
+
+<!-- ESTILOS PARA EL MODAL-->
+<style>
+.modal {
+ display: none; /* oculto hasta abrir */
+ position: fixed;
+ left: 0; top: 0;
+ width: 100%; height: 100%;
+ background-color: rgba(0,0,0,0.5);
+ z-index: 1000;
+}
+.modal-contenido {
+ background: white;
+ margin: 5% auto;
+ padding: 20px;
+ border-radius: 10px;
+ max-width: 600px;
+ max-height: 80vh;
+ overflow-y: auto;
+}
+.cerrar {
+ float: right;
+ cursor: pointer;
+ font-size: 24px;
+}
+.correcta { color: green; }
+.incorrecta { color: red; }
+#resultado { margin-top: 1em; }
+</style>
+</head>
+
+<body>
+
+<!-- SECCIÓN PARA JUGAR TRIVIA -->
+<section id="jugar-trivia">
+ <h2>¿Te animas a poner a prueba tus conocimientos?</h2>
+ <button id="abrirTrivia">Comenzar Trivia</button>
+</section>
+
+<!-- MODAL -->
+<div id="modalTrivia" class="modal">
+ <div class="modal-contenido">
+  <span class="cerrar">&times;</span>
+
+  <h2>Trivia sobre Santo Tomas de Aquino </h2>
+
+  <!-- FORMULARIO DE TRIVIA -->
+  <form id="formTrivia">
+   <p><strong>1.</strong> ¿Dónde nació Santo Tomas de Aquino?</p>
+   <label><input type="radio" name="p1" value="Roccasecca"> Roccasecca  </label><br>
+   <label><input type="radio" name="p1" value="Frosinone"> Frosinone </label><br>
+   <label><input type="radio" name="p1" value="Pontecorvo "> Pontecorvo </label><br><br>
+
+   <p><strong>2.</strong> ¿En qué año nació?</p>
+   <label><input type="radio" name="p2" value="1256"> 1256</label><br>
+   <label><input type="radio" name="p2" value="1356"> 1356</label><br>
+   <label><input type="radio" name="p2" value="1225"> 1225</label><br><br>
+
+   <p><strong>3.</strong> ¿Cuál de estas obras no fue escrita por Santo Tomás de Aquino?</p>
+   <label><input type="radio" name="p3" value="Summa Theologiae"> Summa Theologiae</label><br>
+   <label><input type="radio" name="p3" value="El ente y la esencia"> El ente y la esencia </label><br>
+   <label><input type="radio" name="p3" value="Cristo ¿la gran verdad o sólo mentira?"> Cristo ¿la gran verdad o sólo mentira? </label><br><br>
+
+   <p><strong>4.</strong> ¿Cómo fue proclamado?</p>
+   <label><input type="radio" name="p4" value="Patrón de todas las universidades y escuelas católicas."> Patrón de todas las universidades y escuelas católicas.</label><br>
+   <label><input type="radio" name="p4" value="Patrón universal de todas las escuelas cristianas populares del mundo"> Patrón universal de todas las escuelas cristianas populares del mundo</label><br>
+   <label><input type="radio" name="p4" value="Patrono y protector de la Policía del Estado "> Patrono y protector de la Policía del Estado </label><br><br>
+
+   <p><strong>5.</strong> ¿Qué día se celebra su festividad?</p>
+   <label><input type="radio" name="p5" value="25 de abril"> 25 de abril</label><br>
+   <label><input type="radio" name="p5" value="28 de enero"> 28 de enero </label><br>
+   <label><input type="radio" name="p5" value="07 de julio "> 07 de julio</label><br><br>
+
+   <button type="submit">Enviar respuestas</button>
+  </form>
+
+  <div id="resultado"></div>
+ </div>
+</div>
+
+<!-- SCRIPT PARA ABRIR/CERRAR EL MODAL Y EVALUAR -->
+<script>
+// --- Modal ---
+const modal = document.getElementById("modalTrivia");
+const btnAbrir = document.getElementById("abrirTrivia");
+const btnCerrar = document.querySelector(".cerrar");
+
+btnAbrir.onclick = () => { modal.style.display = "block"; };
+btnCerrar.onclick = () => { modal.style.display = "none"; };
+window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+
+// --- Trivia ---
+document.getElementById("formTrivia").addEventListener("submit", function(e) {
+ e.preventDefault();
+
+ let puntaje = 0;
+ let salida = "";
+
+ // Pregunta 1
+ let r1 = document.querySelector('input[name="p1"]:checked');
+ if (r1) {
+   if (r1.value === "Roccasecca") {
+     puntaje++;
+     salida += "<p class='correcta'>1. ✅ Correcta</p>";
+   } else {
+     salida += "<p class='incorrecta'>1. ❌ Incorrecta. Correcta: Roccasecca </p>";
+   }
+ } else {
+   salida += "<p class='incorrecta'>1. ❌ No respondida. Correcta: Roccasecca </p>";
+ }
+
+ // Pregunta 2
+ let r2 = document.querySelector('input[name="p2"]:checked');
+ if (r2) {
+   if (r2.value === "1225") {
+     puntaje++;
+     salida += "<p class='correcta'>2. ✅ Correcta</p>";
+   } else {
+     salida += "<p class='incorrecta'>2. ❌ Incorrecta. Correcta: 1225</p>";
+   }
+ } else {
+   salida += "<p class='incorrecta'>2. ❌ No respondida. Correcta: 1225 </p>";
+ }
+
+ // Pregunta 3
+ let r3 = document.querySelector('input[name="p3"]:checked');
+ if (r3) {
+   if (r3.value === "Cristo ¿la gran verdad o sólo mentira?") {
+     puntaje++;
+     salida += "<p class='correcta'>3. ✅ Correcta</p>";
+   } else {
+     salida += "<p class='incorrecta'>3. ❌ Incorrecta. Correcta: Cristo ¿la gran verdad o sólo mentira?</p>";
+   }
+ } else {
+   salida += "<p class='incorrecta'>3. ❌ No respondida. Correcta: Cristo ¿la gran verdad o sólo mentira?</p>";
+ }
+
+ // Pregunta 4
+ let r4 = document.querySelector('input[name="p4"]:checked');
+ if (r4) {
+   if (r4.value === "Patrón de todas las universidades y escuelas católicas.") {
+     puntaje++;
+     salida += "<p class='correcta'>4. ✅ Correcta</p>";
+   } else {
+     salida += "<p class='incorrecta'>4. ❌ Incorrecta. Correcta: Patrón de todas las universidades y escuelas católicas. </p>";
+   }
+ } else {
+   salida += "<p class='incorrecta'>4. ❌ No respondida. Correcta: Patrón de todas las universidades y escuelas católicas. </p>";
+ }
+
+ // Pregunta 5
+ let r5 = document.querySelector('input[name="p5"]:checked');
+ if (r5) {
+   if (r5.value === "28 de enero") {
+     puntaje++;
+     salida += "<p class='correcta'>5. ✅ Correcta</p>";
+   } else {
+     salida += "<p class='incorrecta'>5. ❌ Incorrecta. Correcta: 28 de enero </p>";
+   }
+ } else {
+   salida += "<p class='incorrecta'>5. ❌ No respondida. Correcta: 28 de enero </p>";
+ }
+
+ // --- Resultado final ---
+ salida += `<h4>Puntaje final: ${puntaje} de 5</h4>`;
+ if (puntaje === 5)
+   salida += "<p>🌟 ¡Excelente trabajo!</p>";
+ else if (puntaje >= 3)
+   salida += "<p>👍 Muy bien, conoces bastante sobre Santo Tomas de Aquino.</p>";
+ else
+   salida += "<p>📘 Puedes repasar la página para aprender más.</p>";
+
+ document.getElementById("resultado").innerHTML = salida;
+});
+</script>
+
+</body>
+</html>
